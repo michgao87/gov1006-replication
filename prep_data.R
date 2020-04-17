@@ -3,7 +3,7 @@ library(haven)
 library(tidyverse)
 
 # Prep survey datasets
-# My R code based on 'tech-elites-paper/Data Prep Code - Run First' .do files 
+# My R code based on 'tech-elites-paper/Data Prep Code - Run First' Stata .do files 
 
 # Prepare CS Undergrad Survey Data
 

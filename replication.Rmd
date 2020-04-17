@@ -1,7 +1,7 @@
 ---
-title: "Replication"
+title: "Replication of \"Predispositions and the Political Behavior of American Economic Elites: Evidence from Technology Entrepreneurs\""
 author: "Michelle Gao"
-date: "April 3, 2020"
+date: "April 17, 2020"
 output: 
   bookdown::pdf_document2:
     toc: False
@@ -24,6 +24,8 @@ library(haven)
 library(kableExtra)
 library(knitr)
 library(labelled)
+library(mice)
+library(naniar)
 library(plyr)
 library(png)
 library(reshape)
@@ -37,29 +39,111 @@ library(tidyverse)
 
 ```
 
-# Predispositions and the Political Behavior of American Economic Elites: Evidence from Technology Entrepreneurs^[All analysis for this paper is available at https://github.com/michgao87/gov1006-milestone6]
 
-# Abstract
+# Abstract^[All analysis for this paper is available at https://github.com/michgao87/gov1006-milestone6]
 
-Broockman, Ferenstein, and Malhotra (2019) show that technology entrepreneurs have a unique set of political beliefs: they are liberal on social issues, globalism, and redistribution, but very conservative on government regulation. 
+Broockman, Ferenstein, and Malhotra (2019) show that technology entrepreneurs have a unique set of political beliefs: they are liberal on social issues, globalism, and redistribution, but very conservative on government regulation. The replication of almost all the models succeeded. An extension looking into treating missing data more rigorously returned some differences in a model. Analyzing technology elites' political beliefs is an increasingly timely task as the technology industry becomes more influential in politics.
 
 # Introduction
 
-The authors seek to disprove the assumption that economic elites are homogenous and that increases in their political power necessarily increases inequality across the board—specifically, they focus on describing the political behavior of technology elites, who are growing increasingly wealthy and politically influential. They use four original surveys—of technology entrepreneurs in which the modal respondent is a millionaire who founded or runs a tech industry company with around 100 employees; of partisan donors with an oversample of top 1% donors; and subsamples of wealthy individuals and partisans in the mass public from Survey Sampling International. Throughout the paper, they compare the political beliefs of technology entrepreneurs to these other groups. They demonstrate that technology entrepreneurs support liberal redistributive, social, and globalist policies, but conservative regulatory policies. This is a unique bundle among other economic elites that the authors speculate stem from technology entrepreneurs’ unique predispositions. Technology entrepreneurs believe more strongly in markets and entrepreneurship than general Democrats and large Democratic donors—they are more opposed than Democrats to regulation regardless of the industry and generally prefer private to public-sector management. Uniquely among groups, they support redistribution but oppose regulation. Thus, despite some popular belief, they are not very likely to be libertarians. Furthermore, the authors compared the results of entrepreneurs to Stanford CS and biology majors to show that these political predispositions are apparent in STEM undergraduates before they enter the tech workforce. Like the general public, economic elites’ political views stem from values and predispositions, and if similar-minded people tend to cluster in similar industries, views of elites can be distinguished among industries. The authors surmise that their findings provide evidence of looming changes in the Democratic Party, since technology elites are have the financial means to influence candidates but are opposed to many government interventions that have been the standard Democratic answer to inequality and receive support from traditionally Democratic interest groups such as unions.
-
-# Replication
-
-Numbers I have not been able to replicate correctly: 1) in Table 2: "Technology Entrepreneurs Do Not Agree with Libertarian Philosophy," my percentage for Tech Entrepreneurs is slightly off; 2) in Table 6: "Technology Entrepreneurs No More Likely to Oppose Regulating Technology Products Than Democratic Groups," my linear regression contains the wrong coefficients relating to the "tech product/service" indicator variable. I suspect this is due to scaling the variable incorrectly so I will continue looking into that.
-
-# Extension
-
-My proposed extension is to re-explore the paper’s findings with a focus on age. I am interested in seeing how political beliefs vary with age among technology entrepreneurs, in particular. Just as it has been documented elsewhere that people tend to become more conservative as they grow older, I wonder if a similar trend exists among the entrepreneurs. While the survey of tech elites from this paper does not trace people over time, it did ask all respondents for their age. Considering how the tech landscape is consistently changing—I imagine respondents could span from the early tech era of the 1980s and 1990s, to the 2000s, to the early 2010s, when the survey was conducted—I believe there could be significant differences in beliefs among different age groups. I could foresee using age to explore the data in several ways. First, the paper presents descriptive results of survey responses for different groups such as the Democratic public, Democratic donors, and technology entrepreneurs. I would propose replicating these same analyses, since these are still questions of interest for me, and stratifying by age (perhaps not across all groups, but at least across the tech elites) to see what new patterns emerge. Second, the paper runs regressions that compare technology entrepreneurs’ political dispositions with Democrats to show that they are not uniquely concerned about regulation of the tech industry as opposed to other industries and that they generally prefer private to public sector management. I would propose two strategies to include age. First, I could add age as an interaction term. This way, I could see the effect of age on being a technology entrepreneur. I could also compare the effect of age on different groups: is the effect stronger on tech entrepreneurs than Democratic donors, for example? Secondly, I could use age as a predictor categorical variable and run the regression only on the tech entrepreneur subset, if I wanted to break out the data by age group. Ultimately, if there are significant results when breaking down the data further by age, this could add to the authors’ conclusions. In their discussion, they predict that tech elites will continue to grow their political influence as their financial means increase and they push for less government regulation. Since most of these tech entrepreneurs are Democrats, this means they may push the Democratic party away from their traditional philosophy and their traditional base of support, such as labor unions. If it turns out that younger tech entrepreneurs are the ones who are most pro-market and anti-regulation, this may suggest that the authors’ predicted outcome is more likely to occur in the future. But if the younger tech entrepreneurs are also the ones who are most pro-redistribution, perhaps their increased influence in Democratic politics may help create a world that most Democrats would approve of in the whole. 
+Broockman, Ferenstein, and Malhotra (2019) seek to disprove the assumption that economic elites are homogenous and that increases in their political power necessarily increases inequality across the board—specifically, they focus on describing the political behavior of technology elites, who are growing increasingly wealthy and politically influential. They use four original surveys—of technology entrepreneurs in which the modal respondent is a millionaire who founded or runs a tech industry company with around 100 employees; of partisan donors with an oversample of top 1\% donors; and subsamples of wealthy individuals and partisans in the mass public from Survey Sampling International. Throughout the paper, they compare the political beliefs of technology entrepreneurs to these other groups. They demonstrate that technology entrepreneurs support liberal redistributive, social, and globalist policies, but conservative regulatory policies. This is a unique bundle among other economic elites that the authors speculate stem from technology entrepreneurs’ unique predispositions. Technology entrepreneurs believe more strongly in markets and entrepreneurship than general Democrats and large Democratic donors—they are more opposed than Democrats to regulation regardless of the industry and generally prefer private to public-sector management. Uniquely among groups, they support redistribution but oppose regulation. Thus, despite some popular belief, they are not very likely to be libertarians. Furthermore, the authors compared the results of entrepreneurs to Stanford CS and biology majors to show that these political predispositions are apparent in STEM undergraduates before they enter the tech workforce. Like the general public, economic elites’ political views stem from values and predispositions, and if similar-minded people tend to cluster in similar industries, views of elites can be distinguished among industries. The authors surmise that their findings provide evidence of looming changes in the Democratic Party, since technology elites are have the financial means to influence candidates but are opposed to many government interventions that have been the standard Democratic answer to inequality and receive support from traditionally Democratic interest groups such as unions.
 
 # Literature Review
 
-Of interest: 
+There is very little literature available on the political beliefs of members of the technology industry. Much research in this area has been conducted by the authors themselves. Of particular interest is Ferenstein's ["The Age of Optimists"](https://medium.com/the-ferenstein-wire/silicon-valley-s-political-endgame-summarized-1f395785f3c1)
 
-Gregory Ferenstein's ["The Age of Optimists"](https://medium.com/the-ferenstein-wire/silicon-valley-s-political-endgame-summarized-1f395785f3c1)
+# Replication
+
+There is one linear regression model that I was unable to replicate fully. In Table 6: "Technology Entrepreneurs No More Likely to Oppose Regulating Technology Products Than Democratic Groups," my linear regression contains the wrong coefficients relating to the "tech product/service" indicator variable. 
+
+# Extension
+
+My extension is to handle missing data using multiple imputation via the mice package in R. I noticed that there were often sizable proportions of missing data for many variables used in the research. The original authors omitted the missing data when running their regressions, as did I when replicating their work. However, I wondered how handling the missingness might change the results. Because there were multiple models run in the paper, I chose only one to extend using multiple imputation for the missing data. The model I found most interesting was regressing views towards government intervention in the economy, private sector management, and opinion of entrpreneurs by group (tech entrepreneur, Democratic and Republican donors, and Democratic and Republican mass public).
+
+According to Rubin (1976)'s classification, there are three types of missing data: Missing Completely at Random, Missing at Random, and Missing Not at Random. MNAR is extremely problematic, as it implies that there are unobservable characteristics driving the observed phenomena. MCAR is ideal because it would not affect the results but is generally unrealistic. Assuming MAR, multiple imputation is a possible solution. Multiple imputation is a procedure that substitutes missing values using an appropriate model that includes random variation; creates independent imputed datasets; and calculates the final parameter estimates as the average of the estimates across each of those datasets. The new standard errors must also take into account the uncertainty generated by the multiple imputed datasets.  The mice package in R uses Conditional Multiple Imputation, which models a variable's conditional distribution on the other variables (rather than assuming one distribution for the entire dataset).
+
+```{r extension, warning = F, message = F}
+ext <- read_dta("tech-elites-paper/Tech Donor and Public Survey Data/combined_withmeans_anon.dta") %>% 
+  mutate(
+    sampletext = case_when(
+      sample == 3 ~ "Tech",
+      sample == 1 & (pid1 == 1 | pid2leanselectedchoice == 1) ~ "Democrats (Mass Public)",
+      sample == 1 & (pid1 == 2 | pid2leanselectedchoice == 2) ~ "Republicans (Mass Public)",
+      sample == 2 & party == "D" ~ "Democratic Donors",
+      sample == 2 & party == "R" ~ "Republican Donors",
+      T ~ NA_character_),
+    sampletext = factor(sampletext, 
+                        levels = c("Tech", "Democratic Donors", "Democrats (Mass Public)",
+                                   "Republican Donors", "Republicans (Mass Public)",
+                                   NA_character_)),
+    govruns = 1 - govruns,
+    pref_for_private = 4 * (privatesectorruns - govruns),
+    gov_goodjob = 4 - 3*gov_goodjob,
+    entrepreneurstoomuchcredit = 4 - 3*entrepreneurstoomuchcredit) %>%
+  select(sampletext, govruns, pref_for_private, gov_goodjob, entrepreneurstoomuchcredit)
+missing_table <- miss_var_summary(ext)
+
+missing_table %>% 
+  mutate(pct_miss = round(pct_miss, 2)) %>% 
+  mutate_all(linebreak) %>%
+   kable("pandoc", booktabs = T, escape = F, align = "c",
+         caption = "Missing Data",
+         col.names = c("Variable", "# Missing", "% Missing")) 
+
+imp <- mice(ext, print = F)
+
+ext_long <- complete(imp, action = "long", include = T) %>% as_tibble()
+  
+private_reg_imp <- with(ext_long, lm(pref_for_private ~ sampletext))
+gov_reg_imp <- with(ext_long, lm(gov_goodjob ~ sampletext))
+entre_reg_imp <- with(ext_long, lm(entrepreneurstoomuchcredit ~ sampletext))
+
+
+# Table 7: original regression
+survey <- read_dta("tech-elites-paper/Tech Donor and Public Survey Data/combined_withmeans_anon.dta") %>% 
+  mutate(
+    sampletext = case_when(
+      sample == 3 ~ "Tech",
+      sample == 1 & (pid1 == 1 | pid2leanselectedchoice == 1) ~ "Democrats (Mass Public)",
+      sample == 1 & (pid1 == 2 | pid2leanselectedchoice == 2) ~ "Republicans (Mass Public)",
+      sample == 2 & party == "D" ~ "Democratic Donors",
+      sample == 2 & party == "R" ~ "Republican Donors"),
+    sampletext = factor(sampletext, 
+                        levels = c("Tech", "Democratic Donors", "Democrats (Mass Public)",
+                                   "Republican Donors", "Republicans (Mass Public)")),
+    govruns = 1 - govruns,
+    pref_for_private = 4 * (privatesectorruns - govruns),
+    gov_goodjob = 4 - 3*gov_goodjob,
+    entrepreneurstoomuchcredit = 4 - 3*entrepreneurstoomuchcredit
+  )
+
+private_reg <- lm(pref_for_private ~ sampletext, data = survey)
+gov_reg <- lm(gov_goodjob ~ sampletext, data = survey)
+entre_reg <- lm(entrepreneurstoomuchcredit ~ sampletext, data = survey)
+```
+
+```{r extension_output, results = "asis"}
+stargazer(private_reg_imp, private_reg, gov_reg_imp, gov_reg, entre_reg_imp, entre_reg, 
+          type = "latex", header = F, no.space = T, notes.align = "l", digits = 2,
+          keep.stat = c("n", "rsq"),
+          covariate.labels = c("Dem. Donors",
+                               "Dem. (Mass Public)",
+                               "Rep. Donors",
+                               "Rep. (Mass Public)",
+                               "\\shortstack{Constant \\\\ (Tech Entrepeneurs)}"),
+          model.numbers = F,
+          column.labels = c("\\shortstack{Approval of Privately Run Programs (1–5)\\\\ Minus Approval of Govt-Run \\\\ Social Programs (1–5)}", "\\shortstack{Govt Does Good Job \\\\ Running Social \\\\ Programs (1–4)}", "\\shortstack{Entrepreneurs Get Too \\\\ Much Credit (1–4)}"),
+          column.separate = c(2, 2, 2),
+          #dep.var.labels = c("", "", ""),
+          dep.var.caption = "",
+          table.layout = "=c-!ts-n",
+          title = "Extension: Regression With and Without Imputed Data"
+)
+```
+
+This table shows that the regression results with the imputed data are slightly different than the original results without. Though all the coefficients are slightly different, all the significances are identical except one: the coefficient for Republican Donors on the question of "Entrepreneurs get too much credit" is significant in the extension, but was originally insignificant. However, the actual difference in the coefficient is just 0.01. Here you can see the influence of having somewhat arbitrary p-value cut-offs. The standard error for the coefficient using the imputed data is much lower than the standard error with the missing data that was omitted. Nevertheless, the overall finding for that column, which is that tech entrepreneurs have beliefs on entrepreneurship most similar to Republican donors, still holds, since the Republican donor coefficient is so much lower than the coefficient for other subgroups. 
+
+As for implications for the other models in the paper, it seems that this multiple implication procedure may tend to make variables appear significant even if they did not appear that way with the missing data omitted. The more interesting question remains, is Missing At Random a reasonable assumption for this data?  
 
 # Appendix
 
@@ -144,7 +228,7 @@ fig_1e <- readPNG('figures/1e.png')
 
 grid.arrange(rasterGrob(fig_1a, width = unit(0.75,"npc"), height = unit(1,"npc")),
              rasterGrob(fig_1b, width = unit(0.75,"npc"), height = unit(1,"npc")),
-             rasterGrob(fig_1c, width = unit(0.75,"npc"), height = unit(1,"npc")), 
+             rasterGrob(fig_1c, width = unit(0.75,"npc"), height = unit(1,"npc")),
              rasterGrob(fig_1d, width = unit(0.75,"npc"), height = unit(1,"npc")),
              rasterGrob(fig_1e, width = unit(0.75,"npc"), height = unit(1,"npc")),
              widths = c(1,1,1,1), 
@@ -375,8 +459,6 @@ grid.arrange(rasterGrob(fig_4),
 
 ```
 
-
-
 ```{r table2}
 tech_survey <- read_dta("tech-elites-paper/Tech Donor and Public Survey Data/combined_withmeans_anon.dta") %>% 
   mutate(libertarian_any_agree = ifelse(libertarian < 0.5, 1, 0),
@@ -407,8 +489,7 @@ table2 %>%
                               "Republican \n Donor \n Survey",
                               "Democrats \n (Public \n Survey)",
                               "Republicans \n (Public \n Survey)"),
-                            align = "c")) %>% 
-      add_footnote("Data are from our technology entrepreneur donor, and mass public surveys. The surveys asked whether individuals agreed or disagreed with the statement \"I would like to live in a society where government does nothing except provide national defense and police protection, so that people could be left alone to earn whatever they could.\" This question wording is from Page, Bartels, and Seawright (2013). Cell probabilities above give the percent of respondents who either somewhat or strongly agreed.")
+                            align = "c")) 
   
   
 ```
@@ -433,9 +514,7 @@ g <- ggplot(data = d.copy, aes(y = regulation_mean, x = redistribution_mean)) +
   scale_y_continuous(name = 'Liberalism on Regulation (0-1 Scale)', limits = c(.3, .8)) +
   scale_x_continuous(name = 'Liberalism on Redistribution (0-1 Scale)', limits = c(.41, .95)) +
   labs(title = "Figure 5: Technology Entrepreneurs' Distinctive Set \n of Economic Views",
-       caption = "Note: Each point shows the mean of each sample’s scores on the redistribution and regulation scales
-on the x-s y-axes, respectively. The blue line shows the line of best fit for samples other than the
-technology sample.")
+       caption = "Note: Each point shows the mean of each sample’s scores on the redistribution and regulation scales on the x-s y-axes, respectively. The blue line shows the line of best fit for samples other than the technology sample.")
 ggsave('figures/5.png', g, scale = .75, width = 8, height = 8, units = 'in')
 
 # fig_5 <- readPNG('figures/5.png')
@@ -453,7 +532,8 @@ tech_survey <- read_dta("tech-elites-paper/Tech Donor and Public Survey Data/com
            rep_donors == 1 ~ "rep donor",
            dem_public == 1 ~ "dem pub",
            rep_public == 1 ~ "rep pub"),
-         survey = factor(survey, levels = c("tech", "dem donor", "rep donor", "dem pub", "rep pub")))
+         survey = factor(survey, levels = c("tech", "dem donor", "rep donor", 
+                                            "dem pub", "rep pub")))
 millionaires <- tech_survey %>% 
   filter(millionaire == 1 & sample == 1) %>% 
   dplyr::summarise(reg_redist = percent(sum(regandredist4way == 1, na.rm = T)/n(), 
@@ -469,7 +549,7 @@ millionaires <- tech_survey %>%
 table3 <- tech_survey %>% 
   drop_na(survey, regandredist4way) %>%
   group_by(survey) %>% 
-  dplyr::summarise(reg_redist = percent(sum(regandredist4way == 1, na.rm = T)/n(), 
+  dplyr::summarise(reg_redist = percent(sum(regandredist4way == 1, na.rm = T)/n(),
                                         accuracy = 0.1),
                    noreg_redist = percent(sum(regandredist4way == 2, na.rm = T)/n(), 
                                         accuracy = 0.1),
@@ -721,8 +801,6 @@ stargazer(tech_reg, dem_donors_reg, dem_pub_reg, full_reg,
                             "\\shortstack{All Three \\\\Groups}"),
           dep.var.labels = "\\shortstack{DV = \"Government regulation of [CATEGORY] \\\\does more harm than good.\" (1–4 scale)}",
           dep.var.caption = "",
-          notes.append = F,
-          notes = "\\shortstack{Standard errors are in parentheses. \\\\ ${}^{***} p < .001$, ${}^{**} p < .01$, ${}^{*} p < .05$ (two-tailed).}",
           table.layout = "=dc-!ts-n",
           title = "Table 5: Technology Entrepreneurs More Likely to Oppose Regulation of Technology, and Less Likely to Oppose of Other Industries, But So Are Other Democrats"
 )
@@ -739,7 +817,7 @@ survey <- read_dta("tech-elites-paper/Tech Donor and Public Survey Data/combined
     rep_public==1 ~ 5,
     ind_public==1 ~ 6
   )) %>% 
-  filter(samplegroup1cat %in% c(1, 2, 4)) %>% 
+  filter(samplegroup1 == 1 & samplegroup1cat %in% c(1, 2, 4)) %>% 
   rename(reg_ind_drones = reg_drones,
          reg_ind_selfdriving = reg_selfdriving,
          reg_ind_wallstreet = reg_wallstreet,
@@ -750,12 +828,13 @@ survey <- read_dta("tech-elites-paper/Tech Donor and Public Survey Data/combined
   select(samplegroup1cat, reg_ind_drones, reg_ind_selfdriving, reg_ind_wallstreet,
          reg_ind_internetdata, reg_ind_healthinsurance, reg_ind_oil, caseid, tech) %>% 
   gather(sector, value, starts_with("reg_ind_")) %>% 
-    mutate(tech_policy = ifelse(sector == "reg_ind_drones" |
+  mutate(tech_policy = ifelse(sector == "reg_ind_drones" |
                                 sector == "reg_ind_internetdata" | 
-                                sector == "reg_ind_selfdriving", 1, 0)) 
+                                sector == "reg_ind_selfdriving", 1, 0),
+         sector = as.factor(sector)) 
 
 reg6 <- lm(value ~ tech * tech_policy, data = survey)
-#summary(reg6)
+summary(reg6)
 
 # // Stacks data so that observation is respondent-industry 
 # gen case_id = _n
@@ -781,8 +860,6 @@ stargazer(reg6, type = "latex", header = F, no.space = T, notes.align = "l", dig
           model.numbers = F,
           dep.var.labels = "\\shortstack{DV = \"Opposition to regulation of particular\\\\ products and services\" (0-1 scale)}",
           dep.var.caption = "",
-          notes.append = F,
-          notes = "\\shortstack{Data are stacked at the respondent-by-product/service level. \\\\ Only technology elites, Democratic donors, and Democratic partisans \\\\ in the public are included in this regression. \\\\ Robust standard errors are clustered by respondent in parentheses \\\\  ${}^{**} p < .01$, ${}^{*} p < .05$ (two-tailed).}",
           table.layout = "=dc-!ts-n",
           title = "Table 6: Technology Entrepreneurs No More Likely to Oppose Regulating Technology Products Than Democratic Groups"
 )
@@ -821,13 +898,11 @@ stargazer(private_reg, gov_reg, entre_reg,
                                "Dem. (Mass Public)",
                                "Rep. Donors",
                                "Rep. (Mass Public)",
-                               "Constant"),
+                               "\\shortstack{Constant \\\\ (Tech Entrepeneurs)}"),
           model.numbers = F,
           column.labels = c("\\shortstack{Approval of Privately Run Programs (1–5)\\\\ Minus Approval of Govt-Run \\\\ Social Programs (1–5)}", "\\shortstack{Govt Does Good Job \\\\ Running Social \\\\ Programs (1–4)}", "\\shortstack{Entrepreneurs Get Too \\\\ Much Credit (1–4)}"),
           dep.var.labels = c("", "", ""),
           dep.var.caption = "",
-          notes.append = F,
-          notes = "\\shortstack{Standard errors are in parentheses. \\\\ ${}^{***} p < .001$, ${}^{**} p < .01$, ${}^{*} p < .05$ (two-tailed).}",
           table.layout = "=c-!ts-n",
           title = "Table 7: Relative to Democrats, Technology Entrepreneurs Prefer Private- to Public-Sector Management Generally"
 )
